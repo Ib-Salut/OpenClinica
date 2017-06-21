@@ -32,7 +32,8 @@ public class EMPiSsibResource
 
 	private static final Logger LOGGER =
 		LoggerFactory.getLogger(
-			EMPiSsibResource.class);
+			"org.akaza.openclinica.ssib.EMPiSsibResource");
+//			EMPiSsibResource.class);
 
 	public static final int TYPE_ID_UIP =
 		1;
@@ -52,9 +53,11 @@ public class EMPiSsibResource
 		throws Exception {
 
 		try {
+			LOGGER.warn(
+				"Asignando valor a la URL de CargaProxy");
 			this.urlProxy =
 				new URL(
-					"http://proxy-pre.ssib.es:9080/porpacCorp/services/ProxyService.wsdl");
+					"http://proxy.ssib.es:9080/porpacCorp/services/ProxyService.wsdl");
 		} catch (MalformedURLException mue) {
 			LOGGER.warn(
 				"Excepción instanciando URL",
@@ -67,7 +70,7 @@ public class EMPiSsibResource
 	}
 
 	@RequestMapping(
-		value = "/byId/json/{personId}/idType",
+		value = "/byId/json/{personId}/{idType}",
 		method = RequestMethod.GET)
 	public ResponseEntity<PersonDto> getPersonData(
 		@PathVariable("personId") String personId,
@@ -119,7 +122,8 @@ public class EMPiSsibResource
 				"Excepción inesperada obteniendo datos administrativos de persona con ID tipo "
 					+ idType
 					+ " y valor "
-					+ personId);
+					+ personId,
+				e);
 			return
 				new ResponseEntity<PersonDto>(
 					new PersonDto(
@@ -130,6 +134,8 @@ public class EMPiSsibResource
 
 	private CargaDatosProxy obtenerProxy() 
 		throws Exception {
+
+		LOGGER.warn("Obteniendo proxy; URL: " + this.urlProxy);
 
 		return
 			new CargaDatosProxy(
