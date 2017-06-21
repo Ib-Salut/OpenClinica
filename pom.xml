@@ -11,7 +11,6 @@
 	<modules>
 		<module>core</module>
 		<module>web</module>
-		<module>ws</module>
 	</modules>
 
 	<properties>
@@ -572,19 +571,21 @@
 	</scm>
 
 	<repositories>
+                <repository>
+                        <snapshots>
+                                <enabled>false</enabled>
+                        </snapshots>
+                        <id>mvn_central</id>
+                        <name>amaven_central</name>
+                        <url>http://repo.maven.apache.org/maven2</url>
+                </repository>
 		<repository>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 			<id>central</id>
 			<name>libs-release</name>
-			<url>http://dev.openclinica.com/artifactory/libs-release</url>
-		</repository>
-		<repository>
-			<snapshots />
-			<id>snapshots</id>
-			<name>libs-snapshot</name>
-			<url>http://dev.openclinica.com/artifactory/libs-snapshot</url>
+			<url>https://openclinica.jfrog.io/openclinica/libs-release</url>
 		</repository>
 		<repository>
 			<id>jboss-public-repository-group</id>
@@ -602,19 +603,21 @@
 		</repository>
 	</repositories>
 	<pluginRepositories>
+                <pluginRepository>
+                        <snapshots>
+                                <enabled>false</enabled>
+                        </snapshots>
+                        <id>mvn_central</id>
+                        <name>amaven_central</name>
+                        <url>http://repo.maven.apache.org/maven2</url>
+                </pluginRepository>
 		<pluginRepository>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 			<id>central</id>
 			<name>plugins-release</name>
-			<url>http://dev.openclinica.com/artifactory/plugins-release</url>
-		</pluginRepository>
-		<pluginRepository>
-			<snapshots />
-			<id>snapshots</id>
-			<name>plugins-snapshot</name>
-			<url>http://dev.openclinica.com/artifactory/plugins-snapshot</url>
+			<url>https://openclinica.jfrog.io/openclinica/libs-release</url>
 		</pluginRepository>
 		<pluginRepository>
 			<id>jboss-public-repository-group</id>
