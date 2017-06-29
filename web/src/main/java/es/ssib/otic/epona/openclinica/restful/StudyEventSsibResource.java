@@ -28,8 +28,7 @@ public class StudyEventSsibResource {
 
 	private static final Logger LOGGER =
 		LoggerFactory.getLogger(
-//			StudySsibResource.class);
-			"org.akaza.openclinica.ssib.restful.StudyEventSsibResource");
+			StudySsibResource.class);
 
         @Autowired(
                 required = true)

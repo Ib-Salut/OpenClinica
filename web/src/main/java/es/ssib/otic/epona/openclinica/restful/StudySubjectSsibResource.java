@@ -49,8 +49,7 @@ public class StudySubjectSsibResource {
 
 	private static final Logger LOGGER =
 		LoggerFactory.getLogger(
-			"org.akaza.openclinica.ssib.restful.studySubjectSsibResource");
-//			StudySubjectSsibResource.class);
+			StudySubjectSsibResource.class);
 
 	@Autowired(
 		required = true)
