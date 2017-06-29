@@ -32,8 +32,7 @@ public class EMPiSsibResource
 
 	private static final Logger LOGGER =
 		LoggerFactory.getLogger(
-			"org.akaza.openclinica.ssib.EMPiSsibResource");
-//			EMPiSsibResource.class);
+			EMPiSsibResource.class);
 
 	public static final int TYPE_ID_UIP =
 		1;
