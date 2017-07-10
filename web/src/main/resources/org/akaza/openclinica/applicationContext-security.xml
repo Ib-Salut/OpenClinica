@@ -175,7 +175,14 @@
 <bean id="openRosaSubmissionController" class="org.akaza.openclinica.controller.openrosa.OpenRosaSubmissionController" autowire="byName">
 </bean>
 
+    <bean id="cargaDatosProxy" class="es.ssib.otic.empi.proxy.CargaDatosProxy">
+        <constructor-arg type="java.lang.String" value="http://proxy.ssib.es:9080/porpacCorp/services/ProxyService"/>
+        <constructor-arg type="java.lang.String" value="Epona"/>
+        <constructor-arg type="java.lang.String" value="IdPeticion"/>
+    </bean>
+
     <bean id="eMPiSsibResource" class="es.ssib.otic.epona.openclinica.restful.EMPiSsibResource">
+        <property name="cargaDatosProxy" ref="cargaDatosProxy"/>
     </bean>
 
     <bean id="studySubjectSsibResource" class="es.ssib.otic.epona.openclinica.restful.StudySubjectSsibResource">
