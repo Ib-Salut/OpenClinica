@@ -88,7 +88,6 @@
 	function buscarDatosPersona() {
 		var idPersona =
 			document.getElementById('idStudySubject').value;
-		alert("ID PERSONA ES " + idPersona);
 
 		if (!idPersona) {
 			return;
@@ -141,14 +140,18 @@
 					 <c:when test="${study.studyParameterConfig.subjectIdGeneration =='auto non-editable'}">
 					  <input onfocus="this.select()" type="text" value="<c:out value="${label}"/>" size="45" class="formfield" disabled>
 					  <input type="hidden" name="label" value="<c:out value="${label}"/>">
+                                          </div>
+                                          <td>*</td>
 					 </c:when>
 					 <c:otherwise>
 					   <input id="idStudySubject" onfocus="this.select()" type="text" name="label" value="<c:out value="${label}"/>" size="50" class="formfieldXL">
-<input type="button" onclick="buscarDatosPersona()" value="Datos Persona"/>
+                                           </div>
+                                           <td>*</td>
+                                           <td valign="top">
+                                               <input type="button" onclick="buscarDatosPersona()" class="button_medium" value="Datos Persona"/>
+                                           </td>
 					 </c:otherwise>
 					</c:choose>
-					</div></td>
-					<td>*</td>
 				</tr>
 				<tr>
 					<td colspan="2"><jsp:include page="../showMessage.jsp"><jsp:param name="key" value="label"/></jsp:include></td>
