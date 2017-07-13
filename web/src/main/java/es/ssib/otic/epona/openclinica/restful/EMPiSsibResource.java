@@ -5,6 +5,7 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import es.ssib.otic.empi.proxy.CargaDatosProxy;
 import es.ssib.otic.empi.proxy.DatosProxy;
+import es.ssib.otic.empi.proxy.iface.ICargaDatosProxy;
+import es.ssib.otic.empi.proxy.iface.IDatosProxy;
 
 import es.ssib.otic.epona.openclinica.restful.dto.PersonDto;
 
@@ -41,9 +43,23 @@ public class EMPiSsibResource
 	public static final int TYPE_ID_DNI =
 		3;
 
-	private URL urlProxy;
+	@Autowired
+	private ICargaDatosProxy cargaDatosProxy;
+
+	public ICargaDatosProxy getCargaDatosProxy() {
+		return
+			this.cargaDatosProxy;
+	}
+
+	public void setCargaDatosProxy(
+		ICargaDatosProxy cargaDatosProxy) {
+
+		this.cargaDatosProxy =
+			cargaDatosProxy;
+	}
 
 	// TODO Configurar
+	private URL urlProxy;
 	private String centroProxy;
 	private String usuarioProxy;
 	
@@ -83,17 +99,22 @@ public class EMPiSsibResource
 			+ personId);
 
 		try {
-			DatosProxy datosProxy =
+			IDatosProxy datosProxy =
 				null;
 			switch (idType) {
 			case TYPE_ID_UIP:
 			case TYPE_ID_CIPAUT:
 				datosProxy =
-					this.obtenerProxy().
+					this.cargaDatosProxy.
 						obtenerDatos(
 							null,
 							personId,
 							"19");
+//					this.obtenerProxy().
+//						obtenerDatos(
+//							null,
+//							personId,
+//							"19");
 				break;
 			case TYPE_ID_DNI:
 			default:
@@ -130,7 +151,7 @@ public class EMPiSsibResource
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+/*
 	private CargaDatosProxy obtenerProxy() 
 		throws Exception {
 
@@ -142,9 +163,9 @@ public class EMPiSsibResource
 				this.centroProxy,
 				this.usuarioProxy);
 	}
-
+*/
 	private PersonDto fromDatosProxy(
-		DatosProxy datosProxy) {
+		IDatosProxy datosProxy) {
 
 		if (datosProxy == null) {
 			return null;

@@ -92,17 +92,22 @@ ssib.cargaDatosPersona.relacionCampos =
 			'mensajeError':  ssib.cargaDatosPersona.funciones.normal};
 
 
-alert("definiendo función");
+ssib.cargaDatosPersona.esStatusOk =
+	function(
+		status) {
+
+		return (status >= 200) && (status < 300);
+	};
+
 ssib.cargaDatosPersona.procesarRespuesta =
 	function(
 		campos,
 		xmlHttp) {
 
-		alert(campos);
 		var respuesta =
 			JSON.parse(
 				xmlHttp.responseText);
-		if (xmlHttp.status != 200) {
+		if (!ssib.cargaDatosPersona.esStatusOk(xmlHttp.status)) {
 			alert("Error obtenint dades: " + respuesta['mensajeError']);
 			return;
 		}
@@ -129,11 +134,13 @@ ssib.cargaDatosPersona.procesarRespuesta =
 					respuesta,
 					clave);
 			} else {
-				// TODO error)
+				if (window.console && window.console.log) {
+					console.log("Campo " + clave + " desconocido");
+				}
 			}
 		}
         };
-alert("funcion definida");
+
 ssib.cargaDatosPersona.porCipAut =
 	function (
 		cipAut,
@@ -141,6 +148,15 @@ ssib.cargaDatosPersona.porCipAut =
 
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.onreadystatechange = function() {
+
+			if (window.console && window.console.log) {
+				console.log(
+					"Procesando respuesta "
+						+ xmlHttp.readyState
+						+ " - "
+						+ xmlHttp.status);
+                	}
+        
 			if (xmlHttp.readyState == XMLHttpRequest.DONE) {
 				ssib.cargaDatosPersona.procesarRespuesta(
 					campos,
@@ -150,8 +166,10 @@ ssib.cargaDatosPersona.porCipAut =
 
 
 
-		xmlHttp.open("GET", "/OpenClinica/pages/ssibData/json/view/cipAut/" + cipAut, true)
+		xmlHttp.open(
+			"GET",
+			"/OpenClinica/pages/ssib/empi/byId/json/" + cipAut + "/2",
+			true)
 		xmlHttp.send();
 	};
 
-alert("función definida 2");

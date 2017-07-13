@@ -353,9 +353,10 @@
             <artifactId>carga_proxy_interface</artifactId>
             <version>1.0.0</version>
         </dependency>
+	<!-- Hasta que no tengamos repositorio Maven, se puede encontrar el código del artefacto en http://tot.ssib.es/epona/trunk/parent_reghepatc -->
         <dependency>
             <groupId>es.ssib.otic.reghepatc</groupId>
-            <artifactId>carga_proxy_impl</artifactId>
+            <artifactId>carga_proxy_impl_spring</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>
