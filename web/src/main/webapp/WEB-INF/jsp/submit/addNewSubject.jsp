@@ -82,7 +82,37 @@
 	
 </c:forEach>
 
+<script src="includes/ssib/cargaDatosPersona.js"></script>
+<script>
 
+	function buscarDatosPersona() {
+		var idPersona =
+			document.getElementById('idStudySubject').value;
+
+		if (!idPersona) {
+			return;
+		}
+
+		var campos = {
+			'nombreCompleto' : 'secondaryLabel',
+	<c:if test="${study.studyParameterConfig.genderRequired !='not used'}">
+			'sexo' : 'sex',
+	</c:if>
+ 	<c:choose>
+	<c:when test="${study.studyParameterConfig.collectDob == '1'}">
+			'fechaNacimiento' : 'fechaNac',
+	</c:when>
+	<c:when test="${study.studyParameterConfig.collectDob == '2'}">
+ 			'anyoNacimiento' : 'anyoNac',
+	</c:when>
+	</c:choose>				
+		};
+
+		ssib.cargaDatosPersona.porCipAut(
+			idPersona,
+			campos);
+	}
+</script>
 <h1><span class="title_manage">
 <c:out value="${study.name}" />:
     <fmt:message key="add_subject" bundle="${resword}"/>
@@ -110,13 +140,18 @@
 					 <c:when test="${study.studyParameterConfig.subjectIdGeneration =='auto non-editable'}">
 					  <input onfocus="this.select()" type="text" value="<c:out value="${label}"/>" size="45" class="formfield" disabled>
 					  <input type="hidden" name="label" value="<c:out value="${label}"/>">
+                                          </div>
+                                          <td>*</td>
 					 </c:when>
 					 <c:otherwise>
-					   <input onfocus="this.select()" type="text" name="label" value="<c:out value="${label}"/>" size="50" class="formfieldXL">
+					   <input id="idStudySubject" onfocus="this.select()" type="text" name="label" value="<c:out value="${label}"/>" size="50" class="formfieldXL">
+                                           </div>
+                                           <td>*</td>
+                                           <td valign="top">
+                                               <input type="button" onclick="buscarDatosPersona()" class="button_medium" value="Datos Persona"/>
+                                           </td>
 					 </c:otherwise>
 					</c:choose>
-					</div></td>
-					<td>*</td>
 				</tr>
 				<tr>
 					<td colspan="2"><jsp:include page="../showMessage.jsp"><jsp:param name="key" value="label"/></jsp:include></td>
@@ -132,7 +167,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldXL_BG">
-						<input onfocus="this.select()" type="text" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>" size="50" class="formfieldXL">
+						<input id="idSubject" onfocus="this.select()" type="text" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>" size="50" class="formfieldXL">
 					</div></td>
 					<td>* <c:if test="${study.studyParameterConfig.discrepancyManagement=='true'}"><a href="#" onClick="openDSNoteWindow('CreateDiscrepancyNote?name=subject&field=uniqueIdentifier&column=unique_identifier','spanAlert-uniqueIdentifier'); return false;">
 					<img name="flag_uniqueIdentifier" src="images/icon_noNote.gif" border="0" alt="<fmt:message key="discrepancy_note" bundle="${resword}"/>" title="<fmt:message key="discrepancy_note" bundle="${resword}"/>"></a></c:if></td>
@@ -151,7 +186,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldXL_BG">
-						<input onfocus="this.select()" type="text" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>" size="50" class="formfieldXL">
+						<input id="idSubject" onfocus="this.select()" type="text" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>" size="50" class="formfieldXL">
 					</div></td>
 					<td>&nbsp;</td>
 				</tr>
@@ -163,7 +198,7 @@
 	</tr>
 	</c:when>
 	<c:otherwise>
-	  <input type="hidden" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>">
+	  <input id="idSubject" type="hidden" name="uniqueIdentifier" value="<c:out value="${uniqueIdentifier}"/>">
 	</c:otherwise>
 	</c:choose>
 
@@ -173,7 +208,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldXL_BG">
-						<input onfocus="this.select()" type="text" name="secondaryLabel" value="<c:out value="${secondaryLabel}"/>" size="50" class="formfieldXL">
+						<input id="secondaryLabel" onfocus="this.select()" type="text" name="secondaryLabel" value="<c:out value="${secondaryLabel}"/>" size="50" class="formfieldXL">
 					</div></td>
 					<td>&nbsp;</td>
 				</tr>
@@ -235,7 +270,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldS_BG">
-						<select name="gender" class="formfieldS">
+						<select id="sex" name="gender" class="formfieldS">
 							<option value="">-<fmt:message key="select" bundle="${resword}"/>-</option>
 							<c:choose>
 								<c:when test="${!empty chosenGender}">
@@ -285,7 +320,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldM_BG">
-						<input onfocus="this.select()" type="text" name="dob" size="15" value="<c:out value="${dob}" />" class="formfieldM" id="dobField" />
+						<input id="fechaNac" onfocus="this.select()" type="text" name="dob" size="15" value="<c:out value="${dob}" />" class="formfieldM" id="dobField" />
 					</td>
 					<td>
 					<A HREF="#">
@@ -314,7 +349,7 @@
 			<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top"><div class="formfieldM_BG">
-						<input onfocus="this.select()" type="text" name="yob" size="15" value="<c:out value="${yob}" />" class="formfieldM" />
+						<input id="anyoNac" onfocus="this.select()" type="text" name="yob" size="15" value="<c:out value="${yob}" />" class="formfieldM" />
 					</td>
 					<td>(<fmt:message key="date_format_year" bundle="${resformat}"/>) *<c:if test="${study.studyParameterConfig.discrepancyManagement=='true'}"><a href="#" onClick="openDSNoteWindow('CreateDiscrepancyNote?name=subject&field=yob&column=date_of_birth','spanAlert-yob'); return false;">
 					<img name="flag_yob" src="images/icon_noNote.gif" border="0" alt="<fmt:message key="discrepancy_note" bundle="${resword}"/>" title="<fmt:message key="discrepancy_note" bundle="${resword}"/>"></a></c:if></td>
