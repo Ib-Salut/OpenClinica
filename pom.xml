@@ -4,7 +4,7 @@
 	<groupId>org.akaza.openclinica</groupId>
 	<artifactId>OpenClinica</artifactId>
 	<packaging>pom</packaging>
-	<version>3.13</version>
+	<version>3.14</version>
 	<name>OpenClinica</name>
 	<description>OpenClinica</description>
 
@@ -571,22 +571,14 @@
 	</scm>
 
 	<repositories>
-                <repository>
-                        <snapshots>
-                                <enabled>false</enabled>
-                        </snapshots>
-                        <id>mvn_central</id>
-                        <name>amaven_central</name>
-                        <url>http://repo.maven.apache.org/maven2</url>
-                </repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>central</id>
-			<name>libs-release</name>
-			<url>https://openclinica.jfrog.io/openclinica/libs-release</url>
-		</repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>openclinica.jfrog.io-libs-release</id>
+            <name>openclinica.jfrog.io-libs-release</name>
+            <url>https://openclinica.jfrog.io/openclinica/libs-release</url>
+        </repository>
 		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
@@ -611,14 +603,6 @@
                         <name>amaven_central</name>
                         <url>http://repo.maven.apache.org/maven2</url>
                 </pluginRepository>
-		<pluginRepository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>central</id>
-			<name>plugins-release</name>
-			<url>https://openclinica.jfrog.io/openclinica/libs-release</url>
-		</pluginRepository>
 		<pluginRepository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
