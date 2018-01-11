@@ -2,7 +2,6 @@ $.noConflict();
 var escalas_braden = escalas_braden || {};
 
 escalas_braden.funcionesConversion = new Array();
-console.log("Uno");
 escalas_braden.escalaActiva = 'Braden';
 
 escalas_braden.funcionesConversion['Braden'] = function(valorNumerico, edad) {
@@ -49,15 +48,12 @@ escalas_braden.funcionesConversion['Braden_Neonatos'] = function (valorNumerico,
 	return (valorNumerico > 17) ? 'Neonato sin riesgo' : 'Neonato con riesgo';
 }
 
-console.log("DOS");
-
 escalas_braden.calcularEdad = function(fechaNacimiento) {
 
 	var fechaSplit =
 		fechaNacimiento.split("/");
 
 	var fechaFormateada = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
-	console.log("La fecha es " + fechaFormateada);	
 	var hoy = new Date();
 	var dateNacimiento = new Date(fechaFormateada);
 	var edad = hoy.getFullYear() - dateNacimiento.getFullYear();
@@ -78,29 +74,25 @@ escalas_braden.crearEscala = (function (nombreEscala, nombreCampoCalculado, idCa
 
 	var elObj = {};
 	elObj.nombreEscala = nombreEscala;
-	console.log("Buscando calculado " + jQuery("#" + nombreCampoCalculado).parent().parent().find("input").length);
 	elObj.campoCalculado = jQuery("#" + nombreCampoCalculado).parent().parent().find("input")[0];
-	elObj.campoCalculado.readonly = true;
+	jQuery(elObj.campoCalculado).attr('readonly', true);
 	elObj.campoCalculadoDesc = document.getElementById(idCampoDescripcion);
 	elObj.campoFechaNacimiento = jQuery("#" + nombreCampoNacimiento).parent().parent().find("input")[0];
 	elObj.nombreCampos = nombreCampos;
 	elObj.campos = new Array();
 
 	elObj.calcular = function() {
-		console.log("Calculando");
 		var faltaValor = false;
 		var total = 0;
 		var descripcion = "";
 		for (var i = 0; i < elObj.campos.length; i++) {
 			if (elObj.campos[i].value.length > 0) {
-				console.log("Iterando, acumulado " + total);
 				total += Number(elObj.campos[i].value);
 			} else {
 				faltaValor = true;
 			}
 		}
 		var fechaNacimiento = elObj.campoFechaNacimiento.value;
-		console.log("Fecha nacimiento " + fechaNacimiento);
 		if (fechaNacimiento.length != 10) {
 			faltaValor = true;
 		}
@@ -109,7 +101,6 @@ escalas_braden.crearEscala = (function (nombreEscala, nombreCampoCalculado, idCa
 			total = "";
 		} else {
 			var edad = escalas_braden.calcularEdad(fechaNacimiento);
-			console.log("Edad " + edad);
 			descripcion = escalas_braden.funcionesConversion[nombreEscala](total, edad);
 		}
 		
@@ -130,12 +121,8 @@ escalas_braden.crearEscala = (function (nombreEscala, nombreCampoCalculado, idCa
 
 	for (var i = 0; i < nombreCampos.length; i++) {
 		var campo = jQuery("#" + elObj.nombreCampos[i]).parent().parent().find("select");
-		console.log("campo es " + campo.length);
 		if (campo.length == 1) {
-			console.log("campo id es : " + campo[0].id);
 			elObj.registrar(campo[0]);
-		} else {
-			console.log("No encontrado " + elObj.nombreCampos[i]);
 		}
 	}
 
@@ -148,7 +135,6 @@ escalas_braden.crearEscala = (function (nombreEscala, nombreCampoCalculado, idCa
 escalas_braden.listenerFecha = function() {
 	escalas_braden.selectorEscala('FechaNac', 'Escala');
 	var escala = escalas_braden[escalas_braden.escalaActiva];
-	console.log("Escala: " + escalas_braden.escalaActiva + " - " + escala);
 	escala.calcular();
 }
 
@@ -166,7 +152,6 @@ escalas_braden.selectorEscala = function(nombreCampoNacimiento, nombreCampoEscal
                 fechaNacimiento.split("/");
 
         var fechaFormateada = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
-        console.log("La fecha es " + fechaFormateada);
         var hoy = new Date();
         var dateNacimiento = new Date(fechaFormateada);
 
@@ -191,24 +176,34 @@ escalas_braden.selectorEscala = function(nombreCampoNacimiento, nombreCampoEscal
 
 	escalas_braden['Braden'].limpiar();
         escalas_braden['Braden_Q'].limpiar();
-//        escalas_braden['Braden_Neonatos'].limpiar();
+        escalas_braden['Braden_Neonatos'].limpiar();
 
+	jQuery("#Escala").parent().parent().find("select").find("option").each(
+		function (index, elemento) {
+			if (jQuery(elemento).attr('value') == escala) {
+				jQuery(elemento).removeAttr('disabled');
+			} else {
+				jQuery(elemento).attr('disabled', 'disabled');
+			}
+		});
 	campoEscala.onchange();
 }
 	
-console.log("antes de ready");
 jQuery(document).ready(function($) {
-	console.log("Ready");
 	
         var campoFechaNacimiento = jQuery("#FechaNac").parent().parent().find("input")[0];
+
+	jQuery("#Escala").parent().parent().find("select").find("option").each(
+		function(index, elemento) {
+			jQuery(elemento).attr('disabled', 'disabled');
+		});
 
 	escalas_braden['Braden'] =
 		escalas_braden.crearEscala('Braden', 'Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['PerSen_BR', 'ExpHum_BR', 'Activi_BR', 'Movili_BR', 'Nutri_BR', 'RocPel_BR']);
 	escalas_braden['Braden_Q'] =
 		escalas_braden.crearEscala('Braden_Q', 'Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['PerSen_BQ', 'ExpHum_BQ', 'Activi_BQ', 'Movili_BQ', 'Nutri_BQ', 'FriDes_BQ', 'PerTis_BQ']);
-//	escalas_braden['Braden_Neonatos'] =
-//		escalas_braden.crearEscala('Braden_Neonatos','Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['ConFis_NEO', 'EstMen_NEO', 'Movili_NEO', 'Activi_NEO', 'Nutri_NEO', 'Humedad_NEO']);
-	console.log("Campo escala " + jQuery('#Escala').parent().parent().find("select").length);	
+	escalas_braden['Braden_Neonatos'] =
+		escalas_braden.crearEscala('Braden_Neonatos','Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['ConFis_NEO', 'EstMen_NEO', 'Movili_NEO', 'Activi_NEO', 'Nutri_NEO', 'Humedad_NEO']);
 	campoFechaNacimiento.onchange = escalas_braden.listenerFecha;
 	escalas_braden.listenerFecha();
 });
