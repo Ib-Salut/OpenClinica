@@ -206,9 +206,9 @@
                 <c:if test="${study.status.available && !currRow.bean.studyEvent.status.deleted && !userRole.monitor}">
 
                     <a href="#" onclick="checkCRFLockedInitial('<c:out value="${dedc.eventCRF.id}"/>', document.startForm<c:out value="${currRow.bean.studyEvent.id}"/><c:out value="${dedc.edc.crf.id}"/>);"
-                      onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_d.gif');"
-                      onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData.gif');">
-                     <img name="bt_EnterData1" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="enter_data" bundle="${resword}"/>" title="<fmt:message key="enter_data" bundle="${resword}"/>" align="right" hspace="6">
+                      onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big_d.gif');"
+                      onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big.gif');">
+                     <img name="bt_EnterData1" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="enter_data" bundle="${resword}"/>" title="<fmt:message key="enter_data" bundle="${resword}"/>" align="right" hspace="6">
                     </a>
 
                  </c:if>
@@ -303,33 +303,33 @@
 			<c:if test="${!dec.eventCRF.status.deleted && !dec.eventCRF.status.locked && study.status.available && !currRow.bean.studyEvent.status.deleted && !userRole.monitor}">
 			    <c:if test="${dec.continueInitialDataEntryPermitted}">
 		           <a href="#"
-				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_d.gif');"
-				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData.gif');"
+				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big_d.gif');"
+				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big.gif');"
                     onclick="checkCRFLocked('<c:out value="${dec.eventCRF.id}"/>', 'InitialDataEntry?eventCRFId=<c:out value="${dec.eventCRF.id}"/>&exitTo=ViewStudySubject?id=${studySub.id}');">
-                       <img name="bt_EnterData1" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="continue_entering_data" bundle="${resword}"/>" title="<fmt:message key="continue_entering_data" bundle="${resword}"/>" align="left" hspace="6">
+                       <img name="bt_EnterData1" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="continue_entering_data" bundle="${resword}"/>" title="<fmt:message key="continue_entering_data" bundle="${resword}"/>" align="left" hspace="6">
 				    </a>
     		    </c:if>
 	    		<c:if test="${dec.startDoubleDataEntryPermitted}">
     				<a href="#"
-	    			onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_d.gif');"
-		    		onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData.gif');"
+	    			onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big_d.gif');"
+		    		onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big.gif');"
                     onclick="checkCRFLocked('<c:out value="${dec.eventCRF.id}"/>', 'DoubleDataEntry?eventCRFId=<c:out value="${dec.eventCRF.id}"/>&exitTo=ViewStudySubject?id=${studySub.id}');">
-                        <img name="bt_EnterData1" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="begin_double_data_entry" bundle="${resword}"/>" title="<fmt:message key="begin_double_data_entry" bundle="${resword}"/>" align="left" hspace="6"></a>
+                        <img name="bt_EnterData1" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="begin_double_data_entry" bundle="${resword}"/>" title="<fmt:message key="begin_double_data_entry" bundle="${resword}"/>" align="left" hspace="6"></a>
     			</c:if>
 	    		<c:if test="${dec.continueDoubleDataEntryPermitted}">
 		            <a href="#"
-				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_d.gif');"
-				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData.gif');"
+				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big_d.gif');"
+				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big.gif');"
                     onclick="checkCRFLocked('<c:out value="${dec.eventCRF.id}"/>', 'DoubleDataEntry?eventCRFId=<c:out value="${dec.eventCRF.id}"/>&exitTo=ViewStudySubject?id=${studySub.id}');">
-				    <img name="bt_EnterData1" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="continue_entering_data" bundle="${resword}"/>" title="<fmt:message key="continue_entering_data" bundle="${resword}"/>" align="left" hspace="6"></a>
+				    <img name="bt_EnterData1" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="continue_entering_data" bundle="${resword}"/>" title="<fmt:message key="continue_entering_data" bundle="${resword}"/>" align="left" hspace="6"></a>
     			</c:if>
     			<c:if test="${(dec.performAdministrativeEditingPermitted) &&(study.status.available)}">
         		   
         		    <a href="#"
-				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_d.gif');"
-				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData.gif');"
+				    onMouseDown="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big_d.gif');"
+				    onMouseUp="javascript:setImage('bt_EnterData1','images/bt_EnterData_green_big.gif');"
                     onclick="checkCRFLocked('<c:out value="${dec.eventCRF.id}"/>', 'AdministrativeEditing?eventCRFId=<c:out value="${dec.eventCRF.id}"/>&exitTo=ViewStudySubject?id=${studySub.id}');">
-				    <img name="bt_EnterData1" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="administrative_editing" bundle="${resword}"/>" title="<fmt:message key="administrative_editing" bundle="${resword}"/>" align="left" hspace="6">
+				    <img name="bt_EnterData1" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="administrative_editing" bundle="${resword}"/>" title="<fmt:message key="administrative_editing" bundle="${resword}"/>" align="left" hspace="6">
 				    </a>
                 </c:if>
 			<%-- locked status here --%>
