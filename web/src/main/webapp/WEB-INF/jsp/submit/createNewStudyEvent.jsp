@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <fmt:setBundle basename="org.akaza.openclinica.i18n.format" var="resformat"/>
 <fmt:setBundle basename="org.akaza.openclinica.i18n.words" var="resword"/>
@@ -221,31 +222,39 @@
 			<tr>
 				<td valign="top">
 				<div class="formfieldXL_BG">
-					<select name="studyEventDefinition" class="formfieldXL">
-						<option value="">-<fmt:message key="select" bundle="${resword}"/>-</option>
-						<c:forEach var="definition" items="${eventDefinitions}">
-							<c:choose>
-								<c:when test="${definition.repeating}">
-									<c:set var="repeating">
-									 (<fmt:message key="repeating" bundle="${resword}"/>)
-									</c:set>
-								</c:when>
-								<c:otherwise>
-									<c:set var="repeating">
-									(<fmt:message key="non_repeating" bundle="${resword}"/>)
-									</c:set>
-								</c:otherwise>
-							</c:choose>
-							<c:choose>
-								<c:when test="${chosenDefinition.id == definition.id}">
-									<option value="<c:out value="${definition.id}" />" selected><c:out value="${definition.name}"/> <c:out value="${repeating}"/></option>
-								</c:when>
-								<c:otherwise>
-									<option value="<c:out value="${definition.id}"/>"><c:out value="${definition.name}"/> <c:out value="${repeating}"/></option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</select>
+					<c:choose>
+						<c:when test="${fn:length(eventDefinitions) eq 1}">
+							<input type="text" name="ignore" class="formfieldXL" readonly="true" value="${eventDefinitions[0].name}"/>
+							<input type="hidden"  name="studyEventDefinition" value="${eventDefinitions[0].id}"/>
+						</c:when>
+						<c:otherwise>
+							<select name="studyEventDefinition" class="formfieldXL">
+								<option value="">-<fmt:message key="select" bundle="${resword}"/>-</option>
+								<c:forEach var="definition" items="${eventDefinitions}">
+									<c:choose>
+									<c:when test="${definition.repeating}">
+										<c:set var="repeating">
+										 (<fmt:message key="repeating" bundle="${resword}"/>)
+										</c:set>
+									</c:when>
+									<c:otherwise>
+										<c:set var="repeating">
+										(<fmt:message key="non_repeating" bundle="${resword}"/>)
+										</c:set>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${chosenDefinition.id == definition.id}">
+										<option value="<c:out value="${definition.id}" />" selected><c:out value="${definition.name}"/> <c:out value="${repeating}"/></option>
+									</c:when>
+									<c:otherwise>
+										<option value="<c:out value="${definition.id}"/>"><c:out value="${definition.name}"/> <c:out value="${repeating}"/></option>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+							</select>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				</td>
 				<td>*</td>
