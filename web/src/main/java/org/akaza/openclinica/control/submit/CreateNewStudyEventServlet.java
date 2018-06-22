@@ -162,6 +162,8 @@ public class CreateNewStudyEventServlet extends SecureController {
         // all definitions will appear in scheduled event creation box-11/26/05
         ArrayList eventDefinitionsScheduled = eventDefinitions;
 
+	logger.warn("Empezando proceso " + fp.isSubmitted());
+
         if (!fp.isSubmitted()) {
             // StudyEventDAO sed = new StudyEventDAO(sm.getDataSource());
             // sed.updateSampleOrdinals_v092();
@@ -235,9 +237,11 @@ public class CreateNewStudyEventServlet extends SecureController {
             // String endCheck = (String)request.getAttribute("endDate");
             // logger.debug(dateCheck+"; "+endCheck);
 
-            String dateCheck2 = request.getParameter("startDate");
+            String dateCheck2 = fp.getString("startDate", true);
             String endCheck2 = request.getParameter("endDate");
             logger.debug(dateCheck2 + "; " + endCheck2);
+
+	    logger.warn("FEcha inicio " + dateCheck2);
 
             // YW, 3-12-2008, 2220 fix <<
             String strEnd = fp.getDateTimeInputString(INPUT_ENDDATE_PREFIX);
@@ -269,7 +273,7 @@ public class CreateNewStudyEventServlet extends SecureController {
 
             v.addValidation(INPUT_STARTDATE_PREFIX, Validator.IS_DATE_TIME);
             v.alwaysExecuteLastValidation(INPUT_STARTDATE_PREFIX);
-            if (!strEnd.equals("")) {
+            if ((strEnd != null) && !strEnd.equals("")) {
                 v.addValidation(INPUT_ENDDATE_PREFIX, Validator.IS_DATE_TIME);
                 v.alwaysExecuteLastValidation(INPUT_ENDDATE_PREFIX);
             }
@@ -299,7 +303,7 @@ public class CreateNewStudyEventServlet extends SecureController {
                     }
                     v.addValidation(INPUT_STARTDATE_PREFIX_SCHEDULED[i], Validator.IS_DATE_TIME);
                     v.alwaysExecuteLastValidation(INPUT_STARTDATE_PREFIX_SCHEDULED[i]);
-                    if (!strEndScheduled[i].equals("")) {
+                    if ((strEndScheduled[i] != null) && !strEndScheduled[i].equals("")) {
                         v.addValidation(INPUT_ENDDATE_PREFIX_SCHEDULED[i], Validator.IS_DATE_TIME);
                         v.alwaysExecuteLastValidation(INPUT_ENDDATE_PREFIX_SCHEDULED[i]);
                     }
@@ -320,11 +324,11 @@ public class CreateNewStudyEventServlet extends SecureController {
                 Validator.addError(errors, INPUT_LOCATION, restext.getString("not_a_valid_location"));
             }
 
-            StudyEventDefinitionBean definition = (StudyEventDefinitionBean) seddao.findByPK(fp.getInt(INPUT_STUDY_EVENT_DEFINITION));
+            StudyEventDefinitionBean definition = (StudyEventDefinitionBean) seddao.findByPK(fp.getInt(INPUT_STUDY_EVENT_DEFINITION, true));
 
             // StudySubjectBean studySubject = (StudySubjectBean) sdao.findByPK(fp.getInt(INPUT_STUDY_SUBJECT));
             // sdao.findByLabelAndStudy(label, study)
-            StudySubjectBean studySubject = sdao.findByLabelAndStudy(fp.getString(INPUT_STUDY_SUBJECT_LABEL), currentStudy);
+            StudySubjectBean studySubject = sdao.findByLabelAndStudy(fp.getString(INPUT_STUDY_SUBJECT_LABEL, true), currentStudy);
             // >> 4358 tbh, 11/2009
             // what if we are sent here from AddNewSubjectServlet.java??? we need to get that study subject bean
             if (request.getAttribute(INPUT_STUDY_SUBJECT) != null) {
@@ -360,7 +364,7 @@ public class CreateNewStudyEventServlet extends SecureController {
             }
 
             // YW, 3-12-2008, 2220 fix >>
-            if (!"".equals(strEnd) && !errors.containsKey(INPUT_STARTDATE_PREFIX) && !errors.containsKey(INPUT_ENDDATE_PREFIX)) {
+            if ((strEnd != null) && !"".equals(strEnd) && !errors.containsKey(INPUT_STARTDATE_PREFIX) && !errors.containsKey(INPUT_ENDDATE_PREFIX)) {
                 end = getInputEndDate();
                 if (!fp.getString(INPUT_STARTDATE_PREFIX + "Date").equals(fp.getString(INPUT_ENDDATE_PREFIX + "Date"))) {
                     if (end.before(start)) {
@@ -411,7 +415,7 @@ public class CreateNewStudyEventServlet extends SecureController {
                         }
                     }
                     scheduledSeds.put(scheduledDefinitionIds[i], i);
-                    if (!strEndScheduled[i].equals("")) {
+                    if ((strEndScheduled[i] != null) && !strEndScheduled[i].equals("")) {
                         endScheduled[i] = fp.getDateTime(INPUT_ENDDATE_PREFIX_SCHEDULED[i]);
                         String prevEndPrefix = i > 0 ? INPUT_ENDDATE_PREFIX_SCHEDULED[i - 1] : INPUT_ENDDATE_PREFIX;
                         if (!fp.getString(INPUT_STARTDATE_PREFIX_SCHEDULED[i] + "Date").equals(fp.getString(prevEndPrefix + "Date"))) {
@@ -477,6 +481,7 @@ public class CreateNewStudyEventServlet extends SecureController {
                 StudyEventDAO sed = new StudyEventDAO(sm.getDataSource());
 
                 StudyEventBean studyEvent = new StudyEventBean();
+		logger.warn("DefinitionId " + definition.getId() + "StudySubjectId " + studySubject.getId());
                 studyEvent.setStudyEventDefinitionId(definition.getId());
                 studyEvent.setStudySubjectId(studySubject.getId());
 
@@ -496,7 +501,7 @@ public class CreateNewStudyEventServlet extends SecureController {
                 }
                 // tbh
                 // YW, 3-12-2008, 2220 fix <<
-                if (!"".equals(strEnd)) {
+                if ((strEnd != null) && !"".equals(strEnd)) {
                     // YW >>
                     if ("-1".equals(getInputEndHour()) && "-1".equals(getInputEndMinute()) && "".equals(getInputEndHalf())) {
                         studyEvent.setEndTimeFlag(false);
@@ -558,7 +563,7 @@ public class CreateNewStudyEventServlet extends SecureController {
 
                                 studyEventScheduled.setDateStarted(startScheduled[i]);
                                 // YW, 3-12-2008, 2220 fix<<
-                                if (!"".equals(strEndScheduled[i])) {
+                                if ((strEndScheduled[i] != null) && !"".equals(strEndScheduled[i])) {
                                     endScheduled[i] = fp.getDateTime(INPUT_ENDDATE_PREFIX_SCHEDULED[i]);
                                     if ("-1".equals(fp.getString(INPUT_ENDDATE_PREFIX_SCHEDULED[i] + "Hour"))
                                         && "-1".equals(fp.getString(INPUT_ENDDATE_PREFIX_SCHEDULED[i] + "Minute"))
@@ -691,7 +696,7 @@ public class CreateNewStudyEventServlet extends SecureController {
     }
 
     private Date getInputStartDate() {
-        return fp.getDateTime(INPUT_STARTDATE_PREFIX);
+        return fp.getDateTime(INPUT_STARTDATE_PREFIX, true);
     }
 
     private Date getInputStartDateScheduled(int i) {
@@ -709,15 +714,15 @@ public class CreateNewStudyEventServlet extends SecureController {
 
     // YW 08-17-2007
     private String getInputStartHour() {
-        return fp.getString(INPUT_STARTDATE_PREFIX + "Hour");
+        return fp.getString(INPUT_STARTDATE_PREFIX + "Hour", true);
     }
 
     private String getInputStartMinute() {
-        return fp.getString(INPUT_STARTDATE_PREFIX + "Minute");
+        return fp.getString(INPUT_STARTDATE_PREFIX + "Minute", true);
     }
 
     private String getInputStartHalf() {
-        return fp.getString(INPUT_STARTDATE_PREFIX + "Half");
+        return fp.getString(INPUT_STARTDATE_PREFIX + "Half", true);
     }
 
     private String getInputEndHour() {
