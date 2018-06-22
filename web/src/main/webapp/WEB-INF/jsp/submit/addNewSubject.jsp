@@ -45,6 +45,8 @@
 
 <jsp:useBean scope="request" id="groups" class="java.util.ArrayList" />
 
+<jsp:useBean scope="request" id="idOnlyEvent" class="java.lang.String" />
+
 <c:set var="uniqueIdentifier" value="" />
 <c:set var="chosenGender" value="" />
 <c:set var="label" value="" />
@@ -438,6 +440,9 @@
 <tr>
 <td>
 <input type="submit" name="submitEvent" value="<fmt:message key="save_and_assign_study_event" bundle="${restext}"/>" class="button_long">
+<c:if test="${not empty idOnlyEvent}">
+<input type="submit" name="submitAutoEvent" value="Salvar y Asignar Evento Hoy" class="button_long">
+</c:if>
 </td>
 <td><input type="submit" name="submitEnroll" value="<fmt:message key="save_and_add_next_subject" bundle="${restext}"/>" class="button_long"></td>
 <td><input type="submit" name="submitDone" value="<fmt:message key="save_and_finish" bundle="${restext}"/>" class="button_long"></td>

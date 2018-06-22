@@ -100,6 +100,8 @@ public class AddNewSubjectServlet extends SecureController {
 
     public static final String SUBMIT_EVENT_BUTTON = "submitEvent";
 
+    public static final String SUBMIT_AUTO_EVENT_BUTTON = "submitAutoEvent";
+
     public static final String SUBMIT_ENROLL_BUTTON = "submitEnroll";
 
     public static final String SUBMIT_DONE_BUTTON = "submitDone";
@@ -171,6 +173,20 @@ public class AddNewSubjectServlet extends SecureController {
         currentStudy.getStudyParameterConfig().setSubjectPersonIdRequired(checkPersonId.getValue());
         // end fix for 1750, tbh 10 2007
 
+	// GetStudyEventDefinition
+        StudyEventDefinitionDAO seddao = new StudyEventDefinitionDAO(sm.getDataSource());
+	ArrayList studyEventDefinitions = seddao.findAllByStudy(currentStudy);
+	if ((studyEventDefinitions != null) && (studyEventDefinitions.size() == 1)) {
+		System.out.println("Hay un SED");
+		StudyEventDefinitionBean studyEventDefinition =
+			(StudyEventDefinitionBean) studyEventDefinitions.get(0);
+		request.setAttribute(
+			"idOnlyEvent", 
+			Integer.toString(studyEventDefinition.getId()));
+	} else {
+		System.out.println("Número de SED no es 1");
+	}
+ 
         if (!fp.isSubmitted()) {
             if (fp.getBoolean("instr")) {
                 session.removeAttribute(FORM_DISCREPANCY_NOTES_NAME);
@@ -800,12 +816,30 @@ public class AddNewSubjectServlet extends SecureController {
                 }
 
                 String submitEvent = fp.getString(SUBMIT_EVENT_BUTTON);
+		String submitAutoEvent = fp.getString(SUBMIT_AUTO_EVENT_BUTTON);
                 String submitEnroll = fp.getString(SUBMIT_ENROLL_BUTTON);
                 String submitDone = fp.getString(SUBMIT_DONE_BUTTON);
 
                 session.removeAttribute(FORM_DISCREPANCY_NOTES_NAME);
                 if (!StringUtil.isBlank(submitEvent)) {
                     forwardPage(Page.CREATE_NEW_STUDY_EVENT_SERVLET);
+		} else if (!StringUtil.isBlank(submitAutoEvent)) {
+		    SimpleDateFormat sdfSpain =
+		        new SimpleDateFormat("dd/MM/yyyy");
+		    String studyEventDefinition =
+			(String) request.getAttribute("idOnlyEvent");
+
+		    request.setAttribute("studyEventDefinition", studyEventDefinition);
+		    request.setAttribute("submitted", "1");
+			// submitted = true
+		    request.setAttribute("startDate", sdfSpain.format(new Date()));
+		    request.setAttribute("startHour", "12");
+		    request.setAttribute("startMinute", "00");
+                    request.setAttribute("startHalf", "AM");
+                    request.setAttribute("studySubjectId", Integer.toString(studySubject.getId()));
+		    request.setAttribute("studySubjectLabel", studySubject.getLabel());
+		    request.setAttribute("location", currentStudy.getFacilityCity());
+		    forwardPage(Page.CREATE_NEW_STUDY_EVENT_SERVLET);
                 } else if (!StringUtil.isBlank(submitEnroll)) {
                     // NEW MANTIS ISSUE 4770
                     setUpBeans(classes);

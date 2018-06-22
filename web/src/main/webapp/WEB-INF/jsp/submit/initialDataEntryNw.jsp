@@ -995,7 +995,7 @@ but the custom tag uses that, not this jstl code--%>
 </c:forEach>
     <c:if test="${displayItem.itemGroup.groupMetaBean.repeatingGroup}">
         <tr><td class="aka_padding_norm aka_cellBorders" colspan="<c:out value="${totalColsPlusSubcols + 1}"/>">
-                        <button stype="add" type="button" template="<c:out value="${repeatParentId}"/>" class="button_search"><fmt:message key="add" bundle="${resword}"/></button></td>
+                        <button stype="add" type="button" template="<c:out value="${repeatParentId}"/>" class="button_medium"><fmt:message key="add_UPP" bundle="${resword}"/></button></td>
         </tr>
     </c:if>
 </tbody>

@@ -44,7 +44,7 @@ escalas_braden.funcionesConversion['Braden_Q'] = function(valorNumerico, edad) {
 	return (valorNumerico > 16) ? 'Sin riesgo' : 'Con riesgo'; 
 };
 
-escalas_braden.funcionesConversion['Braden_Neonatos'] = function (valorNumerico, edad) {
+escalas_braden.funcionesConversion['NSRAS_Neonatal'] = function (valorNumerico, edad) {
 	return (valorNumerico > 17) ? 'Neonato sin riesgo' : 'Neonato con riesgo';
 }
 
@@ -158,7 +158,7 @@ escalas_braden.selectorEscala = function(nombreCampoNacimiento, nombreCampoEscal
 	switch (anyos) {
 	case 0:
 		var dias = (hoy - dateNacimiento) / (1000 * 60 * 60 * 24);
-		escala = (dias < 29) ? 'Braden_Neonatos' : 'Braden_Q';
+		escala = (dias < 29) ? 'NSRAS_Neonatal' : 'Braden_Q';
 		break;
 	case 1:
 	case 2:
@@ -176,7 +176,7 @@ escalas_braden.selectorEscala = function(nombreCampoNacimiento, nombreCampoEscal
 
 	escalas_braden['Braden'].limpiar();
         escalas_braden['Braden_Q'].limpiar();
-        escalas_braden['Braden_Neonatos'].limpiar();
+        escalas_braden['NSRAS_Neonatal'].limpiar();
 
 	jQuery("#Escala").parent().parent().find("select").find("option").each(
 		function (index, elemento) {
@@ -202,8 +202,8 @@ jQuery(document).ready(function($) {
 		escalas_braden.crearEscala('Braden', 'Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['PerSen_BR', 'ExpHum_BR', 'Activi_BR', 'Movili_BR', 'Nutri_BR', 'RocPel_BR']);
 	escalas_braden['Braden_Q'] =
 		escalas_braden.crearEscala('Braden_Q', 'Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['PerSen_BQ', 'ExpHum_BQ', 'Activi_BQ', 'Movili_BQ', 'Nutri_BQ', 'FriDes_BQ', 'PerTis_BQ']);
-	escalas_braden['Braden_Neonatos'] =
-		escalas_braden.crearEscala('Braden_Neonatos','Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['ConFis_NEO', 'EstMen_NEO', 'Movili_NEO', 'Activi_NEO', 'Nutri_NEO', 'Humedad_NEO']);
+	escalas_braden['NSRAS_Neonatal'] =
+		escalas_braden.crearEscala('NSRAS_Neonatal','Valora_BRADEN', 'Valora_BR_Desc', 'FechaNac', ['ConFis_NEO', 'EstMen_NEO', 'Movili_NEO', 'Activi_NEO', 'Nutri_NEO', 'Humedad_NEO']);
 	campoFechaNacimiento.onchange = escalas_braden.listenerFecha;
 	escalas_braden.listenerFecha();
 });

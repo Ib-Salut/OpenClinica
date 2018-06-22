@@ -249,9 +249,9 @@ After completing data entry, you should mark the CRF as complete (even if all CR
 <%--			<td class="table_cell"><a href="<c:out value="${actionLink}"/>"><c:out value="${action}"/></a>--%>
 			<td class="table_cell">
 				<a href="<c:out value="${actionLink}"/>"
-					onMouseDown="javascript:setImage('bt_EnterData<c:out value="${rowCount}"/>','images/bt_EnterData_d.gif');"
-					onMouseUp="javascript:setImage('bt_EnterData<c:out value="${rowCount}"/>','images/bt_EnterData.gif');"
-				><img name="bt_EnterData<c:out value="${rowCount}"/>" src="images/bt_EnterData.gif" border="0" alt="<fmt:message key="enter_data" bundle="${resword}"/>" title="<fmt:message key="enter_data" bundle="${resword}"/>" align="left" hspace="6"></a>
+					onMouseDown="javascript:setImage('bt_EnterData<c:out value="${rowCount}"/>','images/bt_EnterData_green_big_d.gif');"
+					onMouseUp="javascript:setImage('bt_EnterData<c:out value="${rowCount}"/>','images/bt_EnterData_green_big.gif');"
+				><img name="bt_EnterData<c:out value="${rowCount}"/>" src="images/bt_EnterData_green_big.gif" border="0" alt="<fmt:message key="enter_data" bundle="${resword}"/>" title="<fmt:message key="enter_data" bundle="${resword}"/>" align="left" hspace="6"></a>
 			</td>
 		</tr>
 		<c:set var="rowCount" value="${rowCount + 1}" />
