@@ -347,6 +347,10 @@ public class FormProcessor {
         return answer;
     }
 
+    public Date getDateTime(String prefix) {
+	return this.getDateTime(prefix, false);
+    }
+
     /**
      * Return datetime value. If no input for "Hour" and "Minute" and "am/pm",
      * default time will be 12:00pm. In another word,
@@ -357,7 +361,7 @@ public class FormProcessor {
      * @param prefix
      * @return
      */
-    public Date getDateTime(String prefix) {
+    public Date getDateTime(String prefix, boolean searchAttributes) {
         /*
          * problem with this - if the field values aren't filled in, we grab the
          * default date instead
@@ -369,10 +373,10 @@ public class FormProcessor {
          */
         //Locale locale = ResourceBundleProvider.getLocale();
         ResourceBundle resformat = ResourceBundleProvider.getFormatBundle(locale);
-        String date = getString(prefix + "Date");
-        String hour = getString(prefix + "Hour");
-        String minute = getString(prefix + "Minute");
-        String half = getString(prefix + "Half");
+        String date = getString(prefix + "Date", searchAttributes);
+        String hour = getString(prefix + "Hour", searchAttributes);
+        String minute = getString(prefix + "Minute", searchAttributes);
+        String half = getString(prefix + "Half", searchAttributes);
         if (hour.startsWith("-1")) {
             hour = "12";
         } else if (hour.length() == 1) {
